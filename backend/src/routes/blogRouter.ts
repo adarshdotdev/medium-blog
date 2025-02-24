@@ -46,12 +46,25 @@ blogRouter.get("/bulk", async (c) => {
   const prisma = c.get("prisma");
   console.log("*&&&");
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        createdAt: true,
+
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     c.status(200);
-    return c.json({ data: posts });
+    return c.json({ blogs: posts });
   } catch (e) {
     c.status(500);
-    console.log("/blul", e);
+    console.log("/bulk", e);
     return c.json({ message: "Something went wrong.", error: e });
   }
 });
@@ -98,6 +111,16 @@ blogRouter.get("/:id", async (c) => {
       where: {
         id,
       },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     if (!post) {
@@ -106,7 +129,7 @@ blogRouter.get("/:id", async (c) => {
     }
 
     c.status(200);
-    return c.json({ data: post });
+    return c.json({ blog: post });
   } catch (e) {
     c.status(500);
     console.log("get blog", e);

@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { userRouter } from "./routes/userRouter";
 import { verify } from "hono/jwt";
 import { blogRouter } from "./routes/blogRouter";
+import { cors } from "hono/cors";
 
 export const app = new Hono<{
   Bindings: {
@@ -13,6 +14,7 @@ export const app = new Hono<{
     userId: string;
   };
 }>();
+app.use("/*", cors());
 
 app.use("*", (c, next) => {
   const prisma = new PrismaClient({
@@ -25,14 +27,15 @@ app.use("*", (c, next) => {
 
 app.use("/api/v1/blog/*", async (c, next) => {
   const jwt = c.req.header("Authorization");
+  // console.log(jwt);
 
   if (!jwt) {
     c.status(401);
     return c.json({ error: "unauthorized" });
   }
 
-  const token = jwt.split(" ")[1];
-  const payload = await verify(token, c.env.JWT_SECRET);
+  // const token = jwt.split(" ")[1];
+  const payload = await verify(jwt, c.env.JWT_SECRET);
 
   if (!payload) {
     c.status(401);

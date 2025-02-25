@@ -2,7 +2,8 @@
 
 A full-stack blog website similar to Medium, built with **Cloudflare Workers, Hono, React, and TypeScript**.
 
-[!preview](/preview.png)
+![Preview](preview.png)
+
 
 ## 🚀 Tech Stack
 

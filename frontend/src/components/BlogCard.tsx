@@ -9,7 +9,7 @@ export interface BlogType {
 }
 
 const BlogCard = ({ blog }: BlogType) => {
-  console.log(blog);
+  // console.log(blog);
   const {
     id,
     title,

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import { parseAst } from "vite";
+import { useAuth } from "../../context/AuthContext";
 
 const Auth = ({ type }: { type: string }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Auth = ({ type }: { type: string }) => {
     email: "",
     password: "",
   });
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
 
   const signup = async () => {
@@ -24,8 +26,8 @@ const Auth = ({ type }: { type: string }) => {
       );
       console.log(response);
       const jwt = response.data.jwt;
-      localStorage.setItem("token", jwt);
-      navigate("/blogs");
+      login(jwt);
+      navigate("/");
     } catch (e) {
       console.log("Auth ", e);
     }
@@ -39,8 +41,8 @@ const Auth = ({ type }: { type: string }) => {
       });
 
       const jwt = response.data.jwt;
-      localStorage.setItem("token", jwt);
-      navigate("/blogs");
+      login(jwt);
+      navigate("/");
     } catch (e) {
       console.log(e);
     }

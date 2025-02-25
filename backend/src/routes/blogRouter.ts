@@ -44,7 +44,7 @@ blogRouter.post("/", async (c) => {
 });
 blogRouter.get("/bulk", async (c) => {
   const prisma = c.get("prisma");
-  console.log("*&&&");
+
   try {
     const posts = await prisma.post.findMany({
       select: {

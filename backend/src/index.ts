@@ -26,6 +26,9 @@ app.use("*", (c, next) => {
 });
 
 app.use("/api/v1/blog/*", async (c, next) => {
+  if (c.req.path === "/api/v1/blog/bulk") {
+    return next(); // Skip auth for /bulk route
+  }
   const jwt = c.req.header("Authorization");
   // console.log(jwt);
 

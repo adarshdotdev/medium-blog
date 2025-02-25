@@ -4,6 +4,8 @@ import Signup from "./pages/Signup";
 import Blogs from "./pages/Blogs";
 import Blog from "./pages/Blog";
 import Publish from "./pages/Publish";
+import NotFound from "./pages/NotFound";
+import { useAuth } from "../context/AuthContext";
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path="/" element={<Blogs />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/publish" element={<Publish />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
